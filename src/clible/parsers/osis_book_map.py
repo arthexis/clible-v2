@@ -72,6 +72,19 @@ OSIS_TO_CLIBLE: dict[str, str] = {
     "3John": "3JN",
     "Jude": "JUD",
     "Rev": "REV",
+    "Tob": "TOB",
+    "Jdt": "JDT",
+    "Wis": "WIS",
+    "Sir": "SIR",
+    "Bar": "BAR",
+    "EpJer": "LJE",
+    "Sus": "SUS",
+    "Bel": "BEL",
+    "1Macc": "1MA",
+    "2Macc": "2MA",
+    "3Macc": "3MA",
+    "4Macc": "4MA",
+    "PrMan": "MAN",
 }
 
 

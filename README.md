@@ -145,3 +145,46 @@ Contributions are welcome — please read the [contributing guide](https://mvirt
 ## License
 
 Bible translation notices and data sources are listed in [`NOTICE.md`](NOTICE.md).
+
+### Deuterocanonical and alternate book support (local engine)
+
+The SQLite book catalog includes additional explicit book identifiers used by
+USFX/OSIS editions, including the seven Catholic deuterocanonical books and
+separate Greek Esther/Daniel and related additions. It is a superset of
+identifiers, not a declaration of any particular translation's canon. Existing
+book IDs and positions 1–66 remain unchanged; missing catalog rows are added
+idempotently on connection without altering installed verses. Beblia/Zefania
+numeric mappings remain the legacy 66-book scheme; extra numbers are not
+assigned a meaning. Use explicit-ID USFX or OSIS for expanded editions. Greek
+additions and alternative versifications are not merged into Esther, Daniel,
+or Baruch automatically. Web picker and reading plans are unchanged by this
+local-engine increment.
+
+To import an edition that you are authorized to store locally, extract the
+publisher's USFX or OSIS XML and use a distinct ID, for example:
+
+```sh
+clible seed import-local spablm /path/to/authorized.xml \
+  --name 'Santa Biblia libre para el mundo' --language es --format USFX \
+  --source-url https://ebible.org/find/details.php?id=spablm --rights-confirmed
+clible verse 'Tobías 1:1' --translation spablm
+```
+
+This command does not download files, overwrite an existing translation, or
+claim that you have redistribution rights. Verify the source's terms and
+actual book coverage before importing. Existing translations are not augmented
+or silently substituted. On gway-001, the installed `spanishdhh`, `spa-rv1909`
+and `web` editions each currently have 66 books; migration alone adds no text.
+
+Verified source information:
+
+- [Dios Habla Hoy rights](https://ubscopyrights.org/index.php/translate/view/dhh_product):
+  complete digital DHH with deuterocanonicals requires a verified authorized
+  source/edition; no such import is included here.
+- [World English Bible FAQ](https://ebible.org/eng-web/webfaq.htm): public domain;
+  the existing bundled USFX already includes 18 additional book identifiers.
+- [Santa Biblia libre para el mundo](https://ebible.org/find/details.php?id=spablm):
+  public-domain Spanish draft with deuterocanonical contents documented in
+  [its index](https://ebible.org/spablm/). It is not DHH. Do not relabel it as DHH.
+
+No new Bible text or downloaded source file is committed by this change.

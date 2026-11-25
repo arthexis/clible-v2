@@ -14,6 +14,7 @@ from clible.commands.scope import scope
 from clible.commands.search import search
 from clible.commands.seed import (
     available,
+    import_local,
     install,
     list_installed,
     remove,
@@ -46,6 +47,7 @@ def analytics() -> None:
 
 
 seed.add_command(install)
+seed.add_command(import_local)
 seed.add_command(list_installed, "list")
 seed.add_command(available)
 seed.add_command(sync_catalog)

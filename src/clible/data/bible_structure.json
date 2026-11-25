@@ -65,6 +65,25 @@
     { "id": "2JN", "name": "2 John", "testament": "NT", "position": 63, "chapters": 1 },
     { "id": "3JN", "name": "3 John", "testament": "NT", "position": 64, "chapters": 1 },
     { "id": "JUD", "name": "Jude", "testament": "NT", "position": 65, "chapters": 1 },
-    { "id": "REV", "name": "Revelation", "testament": "NT", "position": 66, "chapters": 22 }
+    { "id": "REV", "name": "Revelation", "testament": "NT", "position": 66, "chapters": 22 },
+    {"id": "TOB", "name": "Tobit", "testament": "DEU", "position": 67, "chapters": 14},
+    {"id": "JDT", "name": "Judith", "testament": "DEU", "position": 68, "chapters": 16},
+    {"id": "ESG", "name": "Greek Esther", "testament": "DEU", "position": 69, "chapters": 10},
+    {"id": "WIS", "name": "Wisdom", "testament": "DEU", "position": 70, "chapters": 19},
+    {"id": "SIR", "name": "Sirach", "testament": "DEU", "position": 71, "chapters": 51},
+    {"id": "BAR", "name": "Baruch", "testament": "DEU", "position": 72, "chapters": 5},
+    {"id": "LJE", "name": "Letter of Jeremiah", "testament": "DEU", "position": 73, "chapters": 1},
+    {"id": "S3Y", "name": "Song of the Three Young Men", "testament": "DEU", "position": 74, "chapters": 1},
+    {"id": "SUS", "name": "Susanna", "testament": "DEU", "position": 75, "chapters": 1},
+    {"id": "BEL", "name": "Bel and the Dragon", "testament": "DEU", "position": 76, "chapters": 1},
+    {"id": "1MA", "name": "1 Maccabees", "testament": "DEU", "position": 77, "chapters": 16},
+    {"id": "2MA", "name": "2 Maccabees", "testament": "DEU", "position": 78, "chapters": 15},
+    {"id": "1ES", "name": "1 Esdras", "testament": "DEU", "position": 79, "chapters": 9},
+    {"id": "MAN", "name": "Prayer of Manasseh", "testament": "DEU", "position": 80, "chapters": 1},
+    {"id": "PS2", "name": "Psalm 151", "testament": "DEU", "position": 81, "chapters": 1},
+    {"id": "3MA", "name": "3 Maccabees", "testament": "DEU", "position": 82, "chapters": 7},
+    {"id": "2ES", "name": "2 Esdras", "testament": "DEU", "position": 83, "chapters": 16},
+    {"id": "4MA", "name": "4 Maccabees", "testament": "DEU", "position": 84, "chapters": 18},
+    {"id": "DAG", "name": "Greek Daniel", "testament": "DEU", "position": 85, "chapters": 14}
   ]
 }

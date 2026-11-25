@@ -29,14 +29,13 @@ class VerseService:
     def _resolve_book(self, name: str) -> BookRow | None:
         """Look up a book by exact name, partial DB search, or EN/FI aliases."""
         book = self._book_repo.get_by_name(name)
-        if not book:
-            matches = self._book_repo.search(name)
-            book = matches[0] if matches else None
-        if not book:
-            bid = resolve_book_id(name)
-            if bid:
-                book = self._book_repo.get_by_id(bid)
-        return book
+        if book:
+            return book
+        bid = resolve_book_id(name)
+        if bid:
+            return self._book_repo.get_by_id(bid)
+        matches = self._book_repo.search(name)
+        return matches[0] if len(matches) == 1 else None
 
     def _resolve_translation_id(self, translation_id: str | None) -> str | None:
         """Return the given ID, or fall back to the installed default."""

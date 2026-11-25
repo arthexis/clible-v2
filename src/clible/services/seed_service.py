@@ -1,8 +1,10 @@
 """Seed service: download, parse, and install Bible translations."""
 
 import json
+import re
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 from collections.abc import Callable
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -154,13 +156,56 @@ class SeedService:
             tmp.flush()
             verses = self._xml_parser.parse_file(Path(tmp.name))
 
+        return self._install_parsed(translation_id, meta, url, verses, report, start)
+
+    def import_local(
+        self,
+        translation_id: str,
+        xml_path: Path,
+        *,
+        name: str,
+        language: str,
+        format: str,
+        source_url: str | None = None,
+    ) -> dict:
+        """Import an operator-authorized explicit-ID XML file, without fetching or overwriting."""
+        if not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_-]{0,79}", translation_id):
+            raise ValueError("Invalid translation ID")
+        if self._translation_repo.exists(translation_id):
+            raise ValueError(f"Translation '{translation_id}' is already installed")
+        if not name.strip() or not re.fullmatch(r"[a-zA-Z]{2,8}(?:-[a-zA-Z0-9]{2,8})*", language):
+            raise ValueError("Name and language are required")
+        fmt = format.upper()
+        if fmt not in ("USFX", "OSIS"):
+            raise ValueError("Local imports require explicit-ID USFX or OSIS")
+        xml_path = Path(xml_path)
+        if not xml_path.is_file() or xml_path.stat().st_size > 64 * 1024 * 1024:
+            raise ValueError("Expected a local XML file of at most 64 MiB")
+        start = time.monotonic()
+        try:
+            with xml_path.open("rb") as stream:
+                _, root = next(ET.iterparse(stream, events=("start",)))
+                if root.tag.split("}")[-1].upper() != fmt:
+                    raise ValueError("Declared format does not match XML")
+        except (ET.ParseError, StopIteration) as exc:
+            raise ValueError("Invalid XML") from exc
+        verses = self._xml_parser.parse_file(xml_path)
+        meta = {"name": name, "language": language, "format": fmt}
+        return self._install_parsed(translation_id, meta, source_url, verses, lambda _: None, start)
+
+    def _install_parsed(self, translation_id, meta, url, verses, report, start):
         valid_book_ids = {b["id"] for b in self._book_repo.get_all()}
         filtered = []
+        skipped = set()
         for v in verses:
             book_id = _BOOK_ID_ALIASES.get(v["book_id"], v["book_id"])
             if book_id in valid_book_ids:
                 filtered.append({**v, "book_id": book_id})
+            else:
+                skipped.add(book_id)
         verses = filtered
+        if not verses:
+            raise ValueError("No recognized verses in translation")
 
         report("Saving verses...")
         translation_data = {
@@ -177,5 +222,7 @@ class SeedService:
         return {
             "translation_id": translation_id,
             "verses_installed": count,
+            "books_installed": len({v["book_id"] for v in verses}),
+            "skipped_book_ids": sorted(skipped),
             "duration_seconds": round(duration, 2),
         }

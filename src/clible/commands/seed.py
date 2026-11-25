@@ -120,6 +120,44 @@ def install(translation_id: str | None, show_help: bool) -> None:
         raise SystemExit(1)
 
 
+@click.command("import-local")
+@click.argument("translation_id")
+@click.argument("xml_path", type=click.Path(exists=True, dir_okay=False, path_type=Path))
+@click.option("--name", required=True, help="Exact name of the source edition.")
+@click.option("--language", required=True, help="Language code, e.g. es.")
+@click.option(
+    "--format",
+    "xml_format",
+    required=True,
+    type=click.Choice(["USFX", "OSIS"], case_sensitive=False),
+)
+@click.option("--source-url", default=None, help="Public source or licence information URL.")
+@click.option("--rights-confirmed", is_flag=True, help="Confirm you may import this local file.")
+def import_local(
+    translation_id, xml_path, name, language, xml_format, source_url, rights_confirmed
+):
+    """Import authorized local XML under a new translation ID; no download or replacement."""
+    if not rights_confirmed:
+        raise click.ClickException("Confirm local import rights using --rights-confirmed.")
+    try:
+        stats = _get_seed_service().import_local(
+            translation_id,
+            xml_path,
+            name=name,
+            language=language,
+            format=xml_format,
+            source_url=source_url,
+        )
+    except (ValueError, OSError) as exc:
+        raise click.ClickException(str(exc)) from exc
+    console.print(
+        f"Installed {stats['translation_id']}: {stats['verses_installed']} verses, "
+        f"{stats['books_installed']} books"
+    )
+    if stats["skipped_book_ids"]:
+        console.print("Unrecognized book IDs skipped: " + ", ".join(stats["skipped_book_ids"]))
+
+
 @click.command("list", add_help_option=False, context_settings={"help_option_names": []})
 @click.option(
     "--json",
