@@ -8,17 +8,17 @@ search, and that Testament enum is correctly applied.
 from clible.db.repositories.book_repo import BookRepo, Testament
 
 
-def test_get_all_returns_66_books_ordered_by_position(book_repo: BookRepo):
-    """Books table is seeded with 66 canonical books, ordered by position."""
+def test_get_all_returns_extended_catalog_ordered_by_position(book_repo: BookRepo):
+    """Books table is seeded with legacy and additional books, ordered by position."""
     result = book_repo.get_all()
-    assert len(result) == 66
+    assert len(result) == 85
     assert result[0]["id"] == "GEN"
     assert result[0]["name"] == "Genesis"
-    assert result[-1]["id"] == "REV"
-    assert result[-1]["name"] == "Revelation"
+    assert result[65]["id"] == "REV"
+    assert result[65]["name"] == "Revelation"
 
     positions = [b["position"] for b in result]
-    assert positions == list(range(1, 67))
+    assert positions == list(range(1, 86))
 
 
 def test_get_by_id_returns_book_when_found(book_repo: BookRepo):

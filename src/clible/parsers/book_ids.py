@@ -15,5 +15,7 @@ def ordered_book_ids() -> tuple[str, ...]:
     path = Path(__file__).resolve().parent.parent / "data" / "bible_structure.json"
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
-    books = sorted(data["books"], key=lambda b: b["position"])
+    books = sorted(
+        (b for b in data["books"] if b["testament"] in ("OT", "NT")), key=lambda b: b["position"]
+    )
     return tuple(b["id"] for b in books)

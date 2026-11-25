@@ -678,5 +678,24 @@
       "ilm."
     ],
     "abbr_fi": "ilm"
-  }
+  },
+  "TOB": {"en": "Tobit", "es": "Tobías", "aliases_es": ["Tob", "Tobias"]},
+  "JDT": {"en": "Judith", "es": "Judit", "aliases_es": ["Jdt"]},
+  "ESG": {"en": "Greek Esther", "es": "Ester griego", "aliases_es": ["EsthGr"]},
+  "WIS": {"en": "Wisdom", "es": "Sabiduría", "aliases_es": ["Wis", "Sab"]},
+  "SIR": {"en": "Sirach", "es": "Eclesiástico", "aliases_es": ["Sir", "Eclesiastico", "Ben Sira", "Sirácide", "Siracida"]},
+  "BAR": {"en": "Baruch", "es": "Baruc", "aliases_es": ["Bar"]},
+  "LJE": {"en": "Letter of Jeremiah", "es": "Carta de Jeremías", "aliases_es": ["EpJer", "Lje"]},
+  "S3Y": {"en": "Song of the Three Young Men", "es": "Cántico de los tres jóvenes", "aliases_es": ["S3Y"]},
+  "SUS": {"en": "Susanna", "es": "Susana", "aliases_es": ["Sus"]},
+  "BEL": {"en": "Bel and the Dragon", "es": "Bel y el dragón", "aliases_es": ["Bel"]},
+  "1MA": {"en": "1 Maccabees", "es": "1 Macabeos", "aliases_es": ["1Macc", "1 Mac"]},
+  "2MA": {"en": "2 Maccabees", "es": "2 Macabeos", "aliases_es": ["2Macc", "2 Mac"]},
+  "1ES": {"en": "1 Esdras", "es": "1 Esdras", "aliases_es": ["1Esd"]},
+  "MAN": {"en": "Prayer of Manasseh", "es": "Oración de Manasés", "aliases_es": ["PrMan"]},
+  "PS2": {"en": "Psalm 151", "es": "Salmo 151", "aliases_es": ["Ps151"]},
+  "3MA": {"en": "3 Maccabees", "es": "3 Macabeos", "aliases_es": ["3Macc", "3 Mac"]},
+  "2ES": {"en": "2 Esdras", "es": "2 Esdras", "aliases_es": ["2Esd"]},
+  "4MA": {"en": "4 Maccabees", "es": "4 Macabeos", "aliases_es": ["4Macc", "4 Mac"]},
+  "DAG": {"en": "Greek Daniel", "es": "Daniel griego", "aliases_es": ["Daniel (griego)"]}
 }

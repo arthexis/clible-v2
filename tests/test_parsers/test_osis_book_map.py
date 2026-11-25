@@ -38,15 +38,15 @@ def test_to_clible_id_numbered_books():
 
 def test_to_clible_id_unknown_returns_none():
     """Unknown OSIS ID returns None."""
-    assert to_clible_id("Tob") is None
-    assert to_clible_id("Jdt") is None
-    assert to_clible_id("Wis") is None
+    assert to_clible_id("Unknown") is None
     assert to_clible_id("") is None
 
 
-def test_osis_to_clible_has_66_canonical_books():
-    """Mapping covers all 66 canonical books."""
-    assert len(OSIS_TO_CLIBLE) == 66
+def test_osis_to_clible_has_legacy_and_deuterocanonical_books():
+    assert len(OSIS_TO_CLIBLE) == 79
+    assert to_clible_id("Tob") == "TOB"
+    assert to_clible_id("Jdt") == "JDT"
+    assert to_clible_id("Wis") == "WIS"
 
 
 def test_all_clible_ids_are_expected_format():

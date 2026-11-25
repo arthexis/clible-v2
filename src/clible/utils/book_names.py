@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import unicodedata
 from functools import lru_cache
 from pathlib import Path
 
@@ -29,7 +30,11 @@ def _book_names_data() -> dict[str, dict[str, object]]:
 
 def _normalize_for_match(s: str) -> str:
     """Lowercase, collapse whitespace, strip trailing punctuation noise."""
-    s = s.strip().lower()
+    s = "".join(
+        c
+        for c in unicodedata.normalize("NFKD", s.strip().casefold())
+        if not unicodedata.combining(c)
+    )
     s = re.sub(r"\s+", " ", s)
     return s
 
@@ -37,15 +42,16 @@ def _normalize_for_match(s: str) -> str:
 def _fi_match_strings(meta: dict[str, object]) -> list[str]:
     """Collect user-facing FI / EN tokens used for resolving a typed book name."""
     out: list[str] = []
-    for key in ("en", "fi", "abbr_fi"):
+    for key in ("en", "fi", "es", "abbr_fi"):
         v = meta.get(key)
         if isinstance(v, str) and v.strip():
             out.append(v)
-    aliases = meta.get("aliases_fi")
-    if isinstance(aliases, list):
-        for a in aliases:
-            if isinstance(a, str) and a.strip():
-                out.append(a)
+    for alias_key in ("aliases_fi", "aliases_es"):
+        aliases = meta.get(alias_key)
+        if isinstance(aliases, list):
+            for a in aliases:
+                if isinstance(a, str) and a.strip():
+                    out.append(a)
     return out
 
 
@@ -63,10 +69,10 @@ def get_display_name(book_id: str, language: str = "en") -> str:
     if not meta:
         return book_id
     lang = language.lower() if language else "en"
-    if lang == "fi":
-        fi = meta.get("fi")
-        if isinstance(fi, str) and fi:
-            return fi
+    if lang in ("fi", "es"):
+        localized = meta.get(lang)
+        if isinstance(localized, str) and localized:
+            return localized
     en = meta.get("en")
     if isinstance(en, str) and en:
         return en
